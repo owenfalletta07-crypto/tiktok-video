@@ -1,5 +1,5 @@
 import React from 'react';
-import {AbsoluteFill, Sequence, staticFile} from 'remotion';
+import {AbsoluteFill, Audio, Sequence, staticFile} from 'remotion';
 import {Background} from './components/Background';
 import {ProgressBar} from './components/ProgressBar';
 import {Fact1} from './scenes/Fact1';
@@ -23,6 +23,13 @@ export const TikTok: React.FC = () => (
   <AbsoluteFill style={{backgroundColor: '#03020a', overflow: 'hidden'}}>
     <style>{fontCss}</style>
     <Background />
+    {/* Ambiance : nappe grave discrète + whoosh à chaque changement de scène */}
+    <Audio src={staticFile('sfx/pad.wav')} volume={0.18} />
+    {SCENES.slice(1).map((scene) => (
+      <Sequence key={`w-${scene.id}`} from={Math.max(0, scene.from - 6)} durationInFrames={14}>
+        <Audio src={staticFile('sfx/whoosh.wav')} volume={0.35} />
+      </Sequence>
+    ))}
     {SCENES.map((scene) => {
       const Comp = COMPONENTS[scene.id];
       return (

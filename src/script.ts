@@ -8,7 +8,17 @@ export const SAFE = {left: 70, right: 170, top: 180, bottom: 270};
 
 export const YELLOW = '#FFE600';
 
-export type Line = {text: string; from: number; duration: number; enter: 'zoom' | 'slide'};
+import timing from './timing.json';
+
+export type Line = {
+  text: string;
+  spoken: string;
+  audio: string; // clip de voix off (dossier public/)
+  from: number; // relatif au début de la scène
+  duration: number;
+  voiceFrames: number; // durée de la voix, pour synchroniser les mots
+  enter: 'zoom' | 'slide';
+};
 
 export type SceneDef = {
   id: string;
@@ -18,64 +28,39 @@ export type SceneDef = {
   lines: Line[];
 };
 
-const L = (text: string, from: number, duration: number, enter: Line['enter']): Line => ({
-  text,
-  from,
-  duration,
-  enter,
-});
+const HUES: Record<string, number> = {hook: 265, fact1: 20, fact2: 300, fact3: 200, outro: 330};
 
-export const SCENES: SceneDef[] = [
-  {
-    id: 'hook',
-    from: 0,
-    duration: 75,
-    hue: 265,
-    lines: [L("Personne ne t'a appris *ÇA*", 0, 36, 'zoom'), L("3 faits *FOUS* sur l'*ESPACE*", 36, 39, 'slide')],
-  },
-  {
-    id: 'fact1',
-    from: 75,
-    duration: 180,
-    hue: 20,
-    lines: [
-      L('Une journée sur *VÉNUS*', 0, 60, 'zoom'),
-      L("dure plus qu'une *ANNÉE*", 60, 60, 'slide'),
-      L('*243 JOURS* contre 225 !', 120, 60, 'zoom'),
-    ],
-  },
-  {
-    id: 'fact2',
-    from: 255,
-    duration: 180,
-    hue: 300,
-    lines: [
-      L("L'espace a une *ODEUR*", 0, 60, 'zoom'),
-      L('Métal brûlé et *VIANDE GRILLÉE*', 60, 60, 'slide'),
-      L('selon les *ASTRONAUTES*', 120, 60, 'zoom'),
-    ],
-  },
-  {
-    id: 'fact3',
-    from: 435,
-    duration: 180,
-    hue: 200,
-    lines: [
-      L("Une cuillère d'*ÉTOILE À NEUTRONS*", 0, 60, 'zoom'),
-      L('pèse *UN MILLIARD* de tonnes', 60, 60, 'slide'),
-      L('Comme *100\u00A0000 TOURS EIFFEL*', 120, 60, 'zoom'),
-    ],
-  },
-  {
-    id: 'outro',
-    from: 615,
-    duration: 90,
-    hue: 330,
-    lines: [L('Et le 4e est *PIRE*…', 0, 40, 'zoom'), L('Abonne-toi pour la *PARTIE\u00A02*', 40, 50, 'slide')],
-  },
-];
+// Le minutage est calculé à partir des durées réelles de la voix off (tools/voiceover.py -> timing.json).
+const buildScenes = (): SceneDef[] => {
+  const scenes: SceneDef[] = [];
+  let cursor = 0;
+  timing.lines.forEach((l, i) => {
+    let scene = scenes[scenes.length - 1];
+    if (!scene || scene.id !== l.scene) {
+      scene = {id: l.scene, from: cursor, duration: 0, hue: HUES[l.scene], lines: []};
+      scenes.push(scene);
+    }
+    scene.lines.push({
+      text: l.text,
+      spoken: l.spoken,
+      audio: l.audio,
+      from: cursor - scene.from,
+      duration: l.duration,
+      voiceFrames: l.voiceFrames,
+      enter: i % 2 === 0 ? 'zoom' : 'slide',
+    });
+    cursor += l.duration;
+    scene.duration = cursor - scene.from;
+  });
+  const last = scenes[scenes.length - 1];
+  last.duration += timing.total - cursor;
+  last.lines[last.lines.length - 1].duration += timing.total - cursor;
+  return scenes;
+};
 
-export const TOTAL_FRAMES = SCENES[SCENES.length - 1].from + SCENES[SCENES.length - 1].duration;
+export const SCENES = buildScenes();
+
+export const TOTAL_FRAMES = timing.total;
 
 // Découpe "a *b c* d" en mots ; un mot est surligné s'il est (même en partie) entre astérisques.
 export const parseWords = (text: string) => {

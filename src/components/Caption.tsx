@@ -2,13 +2,25 @@ import React from 'react';
 import {interpolate, spring, useCurrentFrame, useVideoConfig, Easing} from 'remotion';
 import {Line, parseWords, YELLOW} from '../script';
 
-const WORD_DELAY = 4; // images entre chaque mot (sous-titres mot par mot)
 
 // Une ligne de sous-titre : apparition mot par mot, transition d'entrée (zoom ou glissement) et sortie rapide.
 export const Caption: React.FC<{line: Line; fontSize?: number}> = ({line, fontSize = 112}) => {
   const frame = useCurrentFrame(); // relatif au début de la ligne (Sequence)
   const {fps} = useVideoConfig();
   const words = parseWords(line.text);
+
+  // Sous-titres mot par mot calés sur la voix : chaque mot apparaît proportionnellement à sa longueur.
+  // « Numéro un : » est prononcé mais affiché dans le badge : les mots démarrent après ce préfixe.
+  const prefix = line.spoken.match(/^Numéro \S+ : /)?.[0] ?? '';
+  const offset = Math.round((prefix.length / line.spoken.length) * line.voiceFrames);
+  const span = (line.voiceFrames - offset) * 0.9;
+  const totalChars = words.reduce((a, w) => a + w.w.length + 1, 0);
+  let acc = 0;
+  const starts = words.map((w) => {
+    const start = offset + Math.round((acc / totalChars) * span);
+    acc += w.w.length + 1;
+    return start;
+  });
 
   const enter = spring({frame, fps, config: {damping: 14, stiffness: 180}});
   const exit = interpolate(frame, [line.duration - 5, line.duration], [0, 1], {
@@ -19,14 +31,17 @@ export const Caption: React.FC<{line: Line; fontSize?: number}> = ({line, fontSi
 
   // Léger zoom continu pour qu'aucun plan ne soit fixe.
   const drift = interpolate(frame, [0, line.duration], [1, 1.06]);
+  // Ligne longue (> 2 s) : petit « punch » de zoom à 1,7 s pour casser le plan.
+  const punch =
+    line.duration > 60 ? interpolate(frame, [50, 54, 62], [0, 0.07, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}) : 0;
 
   let transform: string;
   if (line.enter === 'zoom') {
-    const s = interpolate(enter, [0, 1], [1.8, 1]) * drift * interpolate(exit, [0, 1], [1, 0.6]);
+    const s = interpolate(enter, [0, 1], [1.8, 1]) * (drift + punch) * interpolate(exit, [0, 1], [1, 0.6]);
     transform = `scale(${s})`;
   } else {
     const x = interpolate(enter, [0, 1], [700, 0]) + interpolate(exit, [0, 1], [0, -700]);
-    transform = `translateX(${x}px) scale(${drift})`;
+    transform = `translateX(${x}px) scale(${drift + punch})`;
   }
   const opacity = Math.min(interpolate(enter, [0, 0.4], [0, 1], {extrapolateRight: 'clamp'}), 1 - exit);
 
@@ -45,7 +60,7 @@ export const Caption: React.FC<{line: Line; fontSize?: number}> = ({line, fontSi
       }}
     >
       {words.map((w, i) => {
-        const wf = frame - i * WORD_DELAY;
+        const wf = frame - starts[i];
         const pop = spring({frame: wf, fps, config: {damping: 10, stiffness: 260, mass: 0.6}});
         const visible = wf >= 0;
         return (

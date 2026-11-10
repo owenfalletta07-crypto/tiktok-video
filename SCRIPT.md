@@ -1,30 +1,33 @@
 # Script — « 3 faits incroyables sur l'espace que personne ne t'a appris »
 
-Format : 1080×1920, 30 fps, **23,5 s (705 images)**. Mots en `*astérisques*` = surlignés en jaune.
-Chaque ligne de sous-titre reste ≤ 2 s à l'écran et entre avec une transition (zoom ou glissement).
+Format : 1080×1920, 30 fps, **23.9 s (717 images)**, voix off française. Mots en `*astérisques*` = surlignés en jaune.
+Le minutage suit la durée réelle de chaque phrase de voix off (généré par `tools/voiceover.py` → `src/timing.json`).
 
-| Temps | Images | Scène | Texte à l'écran (≤ 6 mots) | Transition / visuel |
-|---|---|---|---|---|
-| 0,0 – 1,2 s | 0 – 36 | HOOK | Personne ne t'a appris *ÇA* | Zoom choc + tremblement, flash |
-| 1,2 – 2,5 s | 36 – 75 | HOOK | 3 faits *FOUS* sur l'*ESPACE* | Glissement depuis la droite |
-| 2,5 – 4,5 s | 75 – 135 | FAIT N°1 | Une journée sur *VÉNUS* | Zoom-in scène + flash, planète orange |
-| 4,5 – 6,5 s | 135 – 195 | FAIT N°1 | dure plus qu'une *ANNÉE* | Glissement |
-| 6,5 – 8,5 s | 195 – 255 | FAIT N°1 | *243 JOURS* contre 225 ! | Zoom |
-| 8,5 – 10,5 s | 255 – 315 | FAIT N°2 | L'espace a une *ODEUR* | Zoom-in scène + flash, nébuleuse |
-| 10,5 – 12,5 s | 315 – 375 | FAIT N°2 | Métal brûlé et *VIANDE GRILLÉE* | Glissement |
-| 12,5 – 14,5 s | 375 – 435 | FAIT N°2 | selon les *ASTRONAUTES* | Zoom |
-| 14,5 – 16,5 s | 435 – 495 | FAIT N°3 | Une cuillère d'*ÉTOILE À NEUTRONS* | Zoom-in scène + flash, étoile pulsante |
-| 16,5 – 18,5 s | 495 – 555 | FAIT N°3 | pèse *UN MILLIARD* de tonnes | Glissement |
-| 18,5 – 20,5 s | 555 – 615 | FAIT N°3 | Comme *100 000 TOURS EIFFEL* | Zoom |
-| 20,5 – 21,8 s | 615 – 655 | CHUTE | Et le 4e est *PIRE*… | Zoom-in + flash |
-| 21,8 – 23,5 s | 655 – 705 | CHUTE | Abonne-toi pour la *PARTIE 2* | Glissement + bouton « + ABONNE-TOI » pulsant |
+| Temps | Scène | Texte à l'écran (≤ 6 mots) | Voix off |
+|---|---|---|---|
+| 0.0 – 1.2 s | hook | Personne ne t'a appris *ÇA* | « Personne ne t'a appris ça ! » |
+| 1.2 – 2.6 s | hook | 3 faits *FOUS* sur l'*ESPACE* | « Trois faits fous sur l'espace. » |
+| 2.6 – 4.9 s | fact1 | Une journée sur *VÉNUS* | « Numéro un : une journée sur Vénus » |
+| 4.9 – 6.3 s | fact1 | dure plus qu'une *ANNÉE* | « dure plus longtemps qu'une année ! » |
+| 6.3 – 9.2 s | fact1 | *243 JOURS* contre 225 ! | « Deux cent quarante-trois jours, contre deux cent vingt-cinq. » |
+| 9.2 – 11.3 s | fact2 | L'espace a une *ODEUR* | « Numéro deux : l'espace a une odeur. » |
+| 11.3 – 13.4 s | fact2 | Métal brûlé et *VIANDE GRILLÉE* | « Métal brûlé, et viande grillée ! » |
+| 13.4 – 14.9 s | fact2 | selon les *ASTRONAUTES* | « C'est ce que racontent les astronautes. » |
+| 14.9 – 17.3 s | fact3 | Une cuillère d'*ÉTOILE À NEUTRONS* | « Numéro trois : une cuillère d'étoile à neutrons » |
+| 17.3 – 18.9 s | fact3 | pèse *UN MILLIARD* de tonnes | « pèse environ un milliard de tonnes. » |
+| 18.9 – 20.5 s | fact3 | Comme *100 000 TOURS EIFFEL* | « Autant que cent mille tours Eiffel ! » |
+| 20.5 – 22.1 s | outro | Et le 4e est *PIRE*… | « Et le quatrième est encore pire… » |
+| 22.1 – 23.5 s | outro | Abonne-toi pour la *PARTIE 2* | « Abonne-toi pour la partie deux ! » |
+
+Transitions : zoom et glissement en alternance à chaque phrase, flash + accélération des étoiles à chaque scène,
+« punch » de zoom sur les phrases de plus de 2 s.
 
 Éléments permanents : fond sombre en dégradé animé (teinte qui change par scène), champ d'étoiles en mouvement
 (effet « vitesse lumière »), barre de progression jaune fine en haut.
 
 Zone sûre : tout le texte est contenu dans x ∈ [70 ; 910] et y ∈ [180 ; 1650] (rien dans les 250 px du bas ni les 150 px de droite).
 
-## Sources des faits
-1. Vénus : rotation sidérale ≈ 243 jours terrestres, révolution ≈ 225 jours (NASA).
-2. Odeur de l'espace : décrite par les astronautes (combinaisons et sas après sorties extravéhiculaires) comme « métal chaud, soudure, steak grillé ».
+## Sources des faits (vérifiés)
+1. Vénus : rotation sidérale ≈ 243 jours terrestres, révolution ≈ 225 jours (NASA). Nuance : le jour *solaire* (d'un lever de Soleil au suivant) dure ≈ 117 jours, car Vénus tourne à l'envers.
+2. Odeur de l'espace : décrite par les astronautes (combinaisons et sas après sorties extravéhiculaires) comme « métal chaud, soudure, steak grillé ». On ne respire pas le vide : c'est l'odeur rapportée sur les équipements.
 3. Étoile à neutrons : densité ≈ 10¹⁷ kg/m³ → une cuillère à café (≈ 5 cm³) ≈ 1 milliard de tonnes ≈ 100 000 tours Eiffel (≈ 10 000 t chacune).

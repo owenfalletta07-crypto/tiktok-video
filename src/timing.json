@@ -1,0 +1,110 @@
+{
+  "fps": 30,
+  "total": 717,
+  "lines": [
+    {
+      "scene": "hook",
+      "text": "Personne ne t'a appris *ÇA*",
+      "spoken": "Personne ne t'a appris ça !",
+      "audio": "vo/line_00.wav",
+      "voiceFrames": 33,
+      "duration": 36
+    },
+    {
+      "scene": "hook",
+      "text": "3 faits *FOUS* sur l'*ESPACE*",
+      "spoken": "Trois faits fous sur l'espace.",
+      "audio": "vo/line_01.wav",
+      "voiceFrames": 40,
+      "duration": 43
+    },
+    {
+      "scene": "fact1",
+      "text": "Une journée sur *VÉNUS*",
+      "spoken": "Numéro un : une journée sur Vénus",
+      "audio": "vo/line_02.wav",
+      "voiceFrames": 64,
+      "duration": 67
+    },
+    {
+      "scene": "fact1",
+      "text": "dure plus qu'une *ANNÉE*",
+      "spoken": "dure plus longtemps qu'une année !",
+      "audio": "vo/line_03.wav",
+      "voiceFrames": 41,
+      "duration": 44
+    },
+    {
+      "scene": "fact1",
+      "text": "*243 JOURS* contre 225 !",
+      "spoken": "Deux cent quarante-trois jours, contre deux cent vingt-cinq.",
+      "audio": "vo/line_04.wav",
+      "voiceFrames": 84,
+      "duration": 87
+    },
+    {
+      "scene": "fact2",
+      "text": "L'espace a une *ODEUR*",
+      "spoken": "Numéro deux : l'espace a une odeur.",
+      "audio": "vo/line_05.wav",
+      "voiceFrames": 58,
+      "duration": 61
+    },
+    {
+      "scene": "fact2",
+      "text": "Métal brûlé et *VIANDE GRILLÉE*",
+      "spoken": "Métal brûlé, et viande grillée !",
+      "audio": "vo/line_06.wav",
+      "voiceFrames": 60,
+      "duration": 63
+    },
+    {
+      "scene": "fact2",
+      "text": "selon les *ASTRONAUTES*",
+      "spoken": "C'est ce que racontent les astronautes.",
+      "audio": "vo/line_07.wav",
+      "voiceFrames": 43,
+      "duration": 46
+    },
+    {
+      "scene": "fact3",
+      "text": "Une cuillère d'*ÉTOILE À NEUTRONS*",
+      "spoken": "Numéro trois : une cuillère d'étoile à neutrons",
+      "audio": "vo/line_08.wav",
+      "voiceFrames": 69,
+      "duration": 72
+    },
+    {
+      "scene": "fact3",
+      "text": "pèse *UN MILLIARD* de tonnes",
+      "spoken": "pèse environ un milliard de tonnes.",
+      "audio": "vo/line_09.wav",
+      "voiceFrames": 45,
+      "duration": 48
+    },
+    {
+      "scene": "fact3",
+      "text": "Comme *100 000 TOURS EIFFEL*",
+      "spoken": "Autant que cent mille tours Eiffel !",
+      "audio": "vo/line_10.wav",
+      "voiceFrames": 45,
+      "duration": 48
+    },
+    {
+      "scene": "outro",
+      "text": "Et le 4e est *PIRE*…",
+      "spoken": "Et le quatrième est encore pire…",
+      "audio": "vo/line_11.wav",
+      "voiceFrames": 45,
+      "duration": 48
+    },
+    {
+      "scene": "outro",
+      "text": "Abonne-toi pour la *PARTIE 2*",
+      "spoken": "Abonne-toi pour la partie deux !",
+      "audio": "vo/line_12.wav",
+      "voiceFrames": 39,
+      "duration": 42
+    }
+  ]
+}

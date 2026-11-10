@@ -1,5 +1,5 @@
 import React from 'react';
-import {AbsoluteFill, interpolate, Sequence, spring, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AbsoluteFill, Audio, interpolate, Sequence, staticFile, spring, useCurrentFrame, useVideoConfig} from 'remotion';
 import {SAFE, SceneDef, WIDTH, YELLOW} from '../script';
 import {Caption} from './Caption';
 
@@ -79,6 +79,7 @@ export const SceneShell: React.FC<Props> = ({scene, badge, visual, captionTop = 
             <div style={{position: 'absolute', inset: 0, display: 'flex', alignItems: 'center'}}>
               <Caption line={line} fontSize={fitFontSize(line.text)} />
             </div>
+            <Audio src={staticFile(line.audio)} />
           </Sequence>
         ))}
       </div>
